@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#161719" />
+    <title>WakuPlay</title>
+    <style id="wp-splash-css">
+      html,body{background:#111214}
+      #wp-splash{position:fixed;inset:0;z-index:99999;background:#111214;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--h) * 1.25);
+        --h:min(10.2vw,8.5vh,62px);--gold:#f2c21b;
+        padding:calc(var(--sat,0px) + 16px) 16px calc(var(--sab,0px) + 16px);box-sizing:border-box;transition:opacity .45s ease;contain:strict}
+      #wp-splash.out{opacity:0}
+      #wp-splash .word{display:flex;align-items:flex-end;justify-content:center;gap:calc(var(--h) * .12)}
+      #wp-splash .wl{height:var(--h);width:calc(var(--h) * var(--w));flex:none;overflow:visible;fill:none;stroke:var(--gold);stroke-width:9;stroke-linecap:round;stroke-linejoin:round;
+        transform:translate3d(0,-80vh,0);will-change:transform;opacity:0}
+      #wp-splash.go .wl{opacity:1;animation:wl-fall .72s both;animation-delay:calc(120ms + var(--i) * 90ms)}
+
+      #wp-splash .logo{width:min(46vw,32vh,230px);height:auto;aspect-ratio:392/234;overflow:visible}
+      #wp-splash .logo .ln{fill:none;stroke:var(--gold);stroke-width:5;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:1 2;stroke-dashoffset:1;opacity:0}
+      #wp-splash .logo .fl{fill:#fee605;opacity:0}
+      #wp-splash .logo .glow{fill:#f2c21b;opacity:0;filter:blur(9px)}
+      #wp-splash.draw .logo .ln{opacity:1;animation:wl-draw .9s cubic-bezier(.5,.05,.3,1) forwards}
+      #wp-splash.draw .logo .fl{animation:wl-fill .5s ease-out .55s forwards}
+      #wp-splash.done .logo .glow{animation:wl-glow .9s ease-out forwards}
+      @keyframes wl-fall{
+        0%{transform:translate3d(0,-80vh,0);animation-timing-function:cubic-bezier(.5,0,.9,.55)}
+        58%{transform:translate3d(0,0,0);animation-timing-function:cubic-bezier(.2,.6,.4,1)}
+        74%{transform:translate3d(0,-13%,0);animation-timing-function:cubic-bezier(.5,0,.9,.55)}
+        88%{transform:translate3d(0,0,0);animation-timing-function:ease-out}
+        94%{transform:translate3d(0,-3%,0);animation-timing-function:ease-in}
+        100%{transform:translate3d(0,0,0)}}
+      @keyframes wl-draw{to{stroke-dashoffset:0}}
+      @keyframes wl-fill{to{opacity:1}}
+      @keyframes wl-glow{0%{opacity:0}35%{opacity:.42}100%{opacity:.18}}
+      @media (prefers-reduced-motion:reduce){#wp-splash.go .wl{animation-duration:.01s;animation-delay:0s}#wp-splash.draw .logo .ln,#wp-splash.draw .logo .fl{animation-duration:.01s;animation-delay:0s}}
+</style>
+  </head>
+  <body>
+    <div id="wp-splash" aria-hidden="true">
+      <div class="word">
+      <svg class="wl" style="--i:0;--w:1.120" viewBox="0 0 56 50" aria-hidden="true"><path d="M5 5L15 45L28 16L41 45L51 5"/></svg>
+      <svg class="wl" style="--i:1;--w:0.880" viewBox="0 0 44 50" aria-hidden="true"><path d="M5 45L22 5L39 45M12 31H32"/></svg>
+      <svg class="wl" style="--i:2;--w:0.840" viewBox="0 0 42 50" aria-hidden="true"><path d="M7 5V45M34 5L8 27M17 22L35 45"/></svg>
+      <svg class="wl" style="--i:3;--w:0.800" viewBox="0 0 40 50" aria-hidden="true"><path d="M6 5V27A14 14 0 0 0 34 27V5"/></svg>
+      <svg class="wl" style="--i:4;--w:0.760" viewBox="0 0 38 50" aria-hidden="true"><path d="M7 45V5H20A12 12 0 0 1 20 29H7"/></svg>
+      <svg class="wl" style="--i:5;--w:0.680" viewBox="0 0 34 50" aria-hidden="true"><path d="M7 5V45H29"/></svg>
+      <svg class="wl" style="--i:6;--w:0.880" viewBox="0 0 44 50" aria-hidden="true"><path d="M5 45L22 5L39 45M12 31H32"/></svg>
+      <svg class="wl" style="--i:7;--w:0.880" viewBox="0 0 44 50" aria-hidden="true"><path d="M5 5L22 26L39 5M22 26V45"/></svg>
+      </div>
+      <svg class="logo" viewBox="60 138 392 234">
+        <path class="glow" d="M138 151L200 271L222 232L180 151ZM73 151L118 152L192 303L256 196L319 303L393 153L396 150L439 151L328 351L320 360L312 360L308 357L255 273L203 357L199 360L189 360L72 154ZM373 150L331 151L289 230L312 271Z"/>
+        <path class="fl" d="M138 151L200 271L222 232L180 151ZM73 151L118 152L192 303L256 196L319 303L393 153L396 150L439 151L328 351L320 360L312 360L308 357L255 273L203 357L199 360L189 360L72 154ZM373 150L331 151L289 230L312 271Z"/>
+        <path class="ln" d="M138 151L200 271L222 232L180 151ZM73 151L118 152L192 303L256 196L319 303L393 153L396 150L439 151L328 351L320 360L312 360L308 357L255 273L203 357L199 360L189 360L72 154ZM373 150L331 151L289 230L312 271Z" pathLength="1"/>
+      </svg>
+    </div>
+    <script>
+      (function () {
+        var el = document.getElementById('wp-splash'); if (!el) return;
+        var letters = el.querySelectorAll('.wl'), line = el.querySelector('.ln');
+        var animDone = false, appReady = !!window.__wpReady, closed = false, fired = false, timers = [];
+        function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
+        function once(node, ms, fn) {
+          var d = false; function go() { if (d) return; d = true; node.removeEventListener('animationend', on); fn(); }
+          function on(e) { if (e.target === node) go(); }
+          node.addEventListener('animationend', on); later(go, ms);
+        }
+        function remove() {
+          timers.forEach(clearTimeout); el.remove();
+          var s = document.getElementById('wp-splash-css'); if (s) s.remove();
+          el = line = letters = null;
+        }
+        function close() {
+          if (closed || !animDone || !appReady) return; closed = true;
+          el.classList.add('out'); later(remove, 520);
+        }
+        function fire() { if (fired) return; fired = true; window.__wpAnimDone = true; window.dispatchEvent(new Event('wp-anim-done')); }
+        window.addEventListener('wp-ready', function () { appReady = true; close(); });
+        var begun = false;
+        function begin() {
+          if (begun || !el) return; begun = true;
+          el.classList.add('go');
+          window.__wpSplashGo = true; window.dispatchEvent(new Event('wp-splash-go'));
+        once(letters[letters.length - 1], 2200, function () {
+          later(function () {
+            el.classList.add('draw');
+            once(line, 1400, function () {
+              el.classList.add('done');
+              fire();
+              later(function () { animDone = true; close(); }, 650);
+            });
+          }, 60);
+        });
+        }
+        function whenShown() {
+          if (document.visibilityState === 'hidden') { document.addEventListener('visibilitychange', whenShown, { once: true }); return; }
+          requestAnimationFrame(function () { requestAnimationFrame(function () { later(begin, 220); }); });
+        }
+        whenShown();
+        later(begin, 2500);
+        later(function () { fire(); animDone = true; appReady = true; close(); }, 10000);
+      })();
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

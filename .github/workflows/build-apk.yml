@@ -1,0 +1,55 @@
+name: Build APK WakuPlay (Flutter + Kotlin)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '17' }
+
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+
+      - uses: subosito/flutter-action@v2
+        with: { channel: stable, cache: true }
+
+      # Isi .env hanya jika belum ada di repo (jangan commit rahasia). Atur di Settings > Secrets and variables > Actions.
+      - name: Siapkan .env web
+        run: |
+          if [ ! -f webapp/.env ]; then
+            {
+              echo "VITE_SUPABASE_URL=${{ secrets.VITE_SUPABASE_URL }}"
+              echo "VITE_SUPABASE_PUBLISHABLE_KEY=${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}"
+              echo "VITE_GOOGLE_WEB_CLIENT_ID=${{ secrets.VITE_GOOGLE_WEB_CLIENT_ID }}"
+              echo "VITE_PREMIUM_FN=${{ secrets.VITE_PREMIUM_FN }}"
+              echo "VITE_BORDER_FN=${{ secrets.VITE_BORDER_FN }}"
+            } > webapp/.env
+          fi
+
+      # Kunci tanda tangan yang SAMA dengan APK lama (base64 dari ~/.wakuplay/wakuplay.jks) agar login Google & update tidak putus.
+      - name: Pasang kunci tanda tangan (opsional)
+        env:
+          KS_B64: ${{ secrets.WP_KEYSTORE_BASE64 }}
+          KS_PASS: ${{ secrets.WP_KEYSTORE_PASSWORD }}
+        run: |
+          if [ -n "$KS_B64" ]; then
+            mkdir -p ~/.wakuplay
+            echo "$KS_B64" | base64 -d > ~/.wakuplay/wakuplay.jks
+            printf 'storeFile=%s\nstorePassword=%s\nkeyAlias=wakuplay\nkeyPassword=%s\n' "$HOME/.wakuplay/wakuplay.jks" "$KS_PASS" "$KS_PASS" > ~/.wakuplay/sign.properties
+          else
+            echo "WP_KEYSTORE_BASE64 tidak diisi: APK ditandatangani kunci debug (login Google bisa gagal)."
+          fi
+
+      - run: bash tool/build.sh release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: WakuPlay-apk
+          path: build/app/outputs/flutter-apk/*.apk

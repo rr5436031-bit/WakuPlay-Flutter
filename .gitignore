@@ -1,0 +1,10 @@
+/build/
+/android/
+/assets/www/
+/.dart_tool/
+/.flutter-plugins*
+/.packages
+pubspec.lock
+webapp/node_modules/
+webapp/dist/
+.DS_Store
